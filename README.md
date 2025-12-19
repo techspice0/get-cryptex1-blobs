@@ -1,26 +1,30 @@
 # get-cryptex1-blobs
-script to get cryptex1 blobs easier
+
+A streamlined script and workflow to retrieve `cryptex1` blobs for A9+ iOS devices.
+
+## ⚠️ Compatibility
+* **Supported:** A9 chips and newer (A9+).
+* **Not Supported:** Apple TV 4, HomePod, and devices with chips older than A9.
+* **Requirement:** The device must be **jailbroken**.
 
 ---
-getting cryptex1 stuff:
 
----
-so on the device it needs to be jailbroken and only a9+ chips are currently 
-supported so sorry apple tv 4 and homepod users. first add the repo 
-`repo.049981.xyz` or open the link in your browser on your device and
-click add to <your package manager>. go to the x8A4 section in my repo
-and install every tweak. then install openssh which is not in my repo.
-you may now go to your computer. so on the computer type 
-`ssh mobile@<ip> "echo <password> | sudo -S x8A4 -k 0x8A4"` 
-you will now get a response but you will only want what comes the "KEY:" 
-block (at the time of writing) but remove the 0x that comes in front.
-still on the pc execute 
+## 🛠️ Setup Instructions
 
-`export X8KEY=<your key without the 0x in front>`
+### 1. Device Configuration
+First, you need to install the necessary tools on your jailbroken device:
 
-then
+1.  Add the following repository to your package manager (Cydia, Sileo, Zebra):  
+    `https://repo.049981.xyz`
+2.  Navigate to the **x8A4** section within the repo.
+3.  Install **every tweak** listed in that section.
+4.  Ensure **OpenSSH** is installed on your device (usually available in default repos).
 
-`pip3 install pycryptodome && git clone https://github.com/Cryptiiiic/aes_nonce.git && cd aes_nonce && python3 aes_cryptex_nonce.py $X8KEY 11111111111111111111111111111111
-`
+### 2. Retrieve the Encryption Key
+From your computer, run the following command to grab the key from your device (replace `<ip>` and `<password>` with your device's details):
 
-so then the entangled nonce you get will be your key to cryptex1 shsh blobs! 
+```bash
+ssh mobile@<ip> "echo <password> | sudo -S x8A4 -k 0x8A4"
+
+|
+|Note: Look for the "KEY:" block in the response. Copy the string that follows it, but remove the 0x prefix.
