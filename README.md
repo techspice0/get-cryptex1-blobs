@@ -23,8 +23,9 @@ First, you need to install the necessary tools on your jailbroken device:
 ### 2. Retrieve the Encryption Key
 From your computer, run the following command to grab the key from your device (replace `<ip>` and `<password>` with your device's details):
 
-```bash
-ssh mobile@<ip> "echo <password> | sudo -S x8A4 -k 0x8A4"
+`bash
+ssh mobile@<ip> "echo <password> | sudo -S x8A4 -k 0x8A4"`
 
 |
-|Note: Look for the "KEY:" block in the response. Copy the string that follows it, but remove the 0x prefix.
+|
+Note: Look for the "KEY:" block in the response. Copy the string that follows it, but remove the 0x prefix.
