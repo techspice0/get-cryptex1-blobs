@@ -1,0 +1,22 @@
+getting cryptex1 stuff:
+
+---
+so on the device it needs to be jailbroken and only a9+ chips are currently 
+supported so sorry apple tv 4 and homepod users. first add the repo 
+`repo.049981.xyz` or open the link in your browser on your device and
+click add to <your package manager>. go to the x8A4 section in my repo
+and install every tweak. then install openssh which is not in my repo.
+you may now go to your computer. so on the computer type 
+`ssh mobile@<ip> "echo <password> | sudo -S x8A4 -k 0x8A4"` 
+you will now get a response but you will only want what comes the "KEY:" 
+block (at the time of writing) but remove the 0x that comes in front.
+still on the pc execute 
+
+`export X8KEY=<your key without the 0x in front>`
+
+then
+
+`pip3 install pycryptodome && git clone https://github.com/Cryptiiiic/aes_nonce.git && cd aes_nonce && python3 aes_cryptex_nonce.py $X8KEY 11111111111111111111111111111111
+`
+
+so then the entangled nonce you get will be your key to cryptex1 shsh blobs! 
