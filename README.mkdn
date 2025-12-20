@@ -63,4 +63,4 @@ aes_cryptex_nonce.py $X8KEY 11111111111111111111111111111111`
 ## Result
 
 The output of the script is the **entangled nonce**. This nonce is
-required for generating **Cryptex1 SHSH blobs**.
+required for generating **Cryptex1 SHSH blobs**. you can now execute collect_config.py then save_blobs.py. i recommend using the blobsaver app to get apnonce and generator.
