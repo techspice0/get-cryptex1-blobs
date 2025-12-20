@@ -1,0 +1,65 @@
+# Cryptex1 Key & Nonce Extraction (A9+ Devices)
+
+This guide explains how to extract the Cryptex1-related key material and
+generate the entangled nonce required for Cryptex1 SHSH blobs.
+
+------------------------------------------------------------------------
+
+## Requirements
+
+-   Jailbroken iOS device
+-   **A9+ SoCs only**
+    -   ❌ Apple TV 4
+    -   ❌ HomePod
+-   OpenSSH installed on the device
+-   Python 3 on your computer
+
+------------------------------------------------------------------------
+
+## Device Setup (On the Jailbroken Device)
+
+1.  Add the following repository to your package manager:
+
+    repo.049981.xyz
+
+2.  Navigate to the **x8A4** section of the repo.
+
+3.  Install **all tweaks** listed in the x8A4 section.
+
+4.  Install **OpenSSH** OpenSSH is not included in this repository.
+
+------------------------------------------------------------------------
+
+## Extracting the x8A4 Key (On Your Computer)
+
+From your computer, run:
+
+ssh mobile@`<device_ip>`{=html} "echo `<password>`{=html} \| sudo -S
+x8A4 -k 0x8A4"
+
+### Important
+
+-   Locate the block labeled **KEY:**
+-   Copy only the key value
+-   Remove the `0x` prefix before continuing
+
+------------------------------------------------------------------------
+
+## Export the Key
+
+export X8KEY=`<key_without_0x>`{=html}
+
+------------------------------------------------------------------------
+
+## Generate the Cryptex1 Entangled Nonce
+
+pip3 install pycryptodome git clone
+https://github.com/Cryptiiiic/aes_nonce.git cd aes_nonce python3
+aes_cryptex_nonce.py \$X8KEY 11111111111111111111111111111111
+
+------------------------------------------------------------------------
+
+## Result
+
+The output of the script is the **entangled nonce**. This nonce is
+required for generating **Cryptex1 SHSH blobs**.
