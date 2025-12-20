@@ -34,8 +34,7 @@ generate the entangled nonce required for Cryptex1 SHSH blobs.
 
 From your computer, run:
 
-ssh mobile@`<device_ip>`{=html} "echo `<password>`{=html} \| sudo -S
-x8A4 -k 0x8A4"
+ssh mobile@`<device_ip>` "echo `<password> | sudo -S x8A4 -k 0x8A4"
 
 ### Important
 
@@ -47,15 +46,15 @@ x8A4 -k 0x8A4"
 
 ## Export the Key
 
-export X8KEY=`<key_without_0x>`{=html}
+export X8KEY=`<key_without_0x>`
 
 ------------------------------------------------------------------------
 
 ## Generate the Cryptex1 Entangled Nonce
 
-pip3 install pycryptodome git clone
-https://github.com/Cryptiiiic/aes_nonce.git cd aes_nonce python3
-aes_cryptex_nonce.py \$X8KEY 11111111111111111111111111111111
+pip3 install pycryptodome && git clone
+https://github.com/Cryptiiiic/aes_nonce.git && cd aes_nonce && python3
+aes_cryptex_nonce.py $X8KEY 11111111111111111111111111111111
 
 ------------------------------------------------------------------------
 
