@@ -34,7 +34,7 @@ generate the entangled nonce required for Cryptex1 SHSH blobs.
 
 From your computer, run:
 
-ssh mobile@`<device_ip>` "echo `<password> | sudo -S x8A4 -k 0x8A4"
+`ssh mobile@<ip> "echo <password> | sudo -S x8A4 -k 0x8A4"`
 
 ### Important
 
