@@ -3,7 +3,7 @@
 save_blobs.py
 -------------
 Saves blobs to blobs/<nickname>/shsh/ using --save-path.
-Understands versioned configs and skips Cryptex on iOS 15 and below.
+Supports build number configs and skips Cryptex for iOS <= 15.
 """
 
 import os
@@ -17,11 +17,11 @@ def extract(contents, key):
     m = re.search(rf"\*\*{re.escape(key)}:\*\*\s*`(.*?)`", contents)
     return m.group(1) if m else None
 
-def ios_major(version):
-    try:
-        return int(version.split(".")[0])
-    except Exception:
-        return 0
+def ios_major_from_build(build_number):
+    m = re.match(r"(\d+)", build_number)
+    if m:
+        return int(m.group(1))
+    return 0
 
 def run_tsschecker(cmd):
     print("\n=== Running tsschecker ===")
@@ -38,8 +38,7 @@ def main():
     print("=== SHSH Blob Saver ===\n")
 
     cfg_path = input(
-        "Enter path to .mkdn config "
-        "(e.g., blobs/iphone-xr-black/iPhone11,8-ECID-17.0.mkdn): "
+        "Enter path to .mkdn config (e.g., blobs/iphone-xr-black/iPhone11,8-ECID-17A5777.mkdn): "
     ).strip()
 
     if not cfg_path or not os.path.exists(cfg_path):
@@ -51,7 +50,7 @@ def main():
 
     device = extract(contents, "Device ID")
     ecid = extract(contents, "ECID")
-    ios_version = extract(contents, "iOS Version")
+    build_number = extract(contents, "iOS Build")
     restore_type = extract(contents, "Restore Type")
     apnonce = extract(contents, "APNonce")
     generator = extract(contents, "Generator")
@@ -60,7 +59,7 @@ def main():
     cellular = extract(contents, "Cellular")
     bbsnum = extract(contents, "Baseband SNUM")
 
-    major = ios_major(ios_version)
+    major = ios_major_from_build(build_number)
 
     shsh_root = os.path.join(device_folder, "shsh")
     manifest_file = os.path.join(device_folder, "BuildManifest.plist")
@@ -68,7 +67,7 @@ def main():
     modes = ["update", "erase", "ota"] if restore_type == "all" else [restore_type]
 
     for mode in modes:
-        outdir = os.path.join(shsh_root, f"{ios_version}-{mode}")
+        outdir = os.path.join(shsh_root, f"{build_number}-{mode}")
         os.makedirs(outdir, exist_ok=True)
 
         cmd = [
@@ -94,9 +93,9 @@ def main():
                 continue
             cmd += ["-m", manifest_file, "-o"]
         elif mode == "update":
-            cmd += ["-i", ios_version, "-u"]
+            cmd += ["--buildid", build_number, "-u"]
         elif mode == "erase":
-            cmd += ["-i", ios_version, "-E"]
+            cmd += ["--buildid", build_number, "-E"]
 
         if cellular and cellular.lower() in ("no", "false", "n"):
             cmd.append("-b")
