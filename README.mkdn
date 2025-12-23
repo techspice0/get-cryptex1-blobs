@@ -74,7 +74,7 @@ python3 save_blobs.py
 
 3. Blobs will be saved under:
 
-blobs/<nickname>/shsh/
+blobs/nickname/shsh/
 
 ------------------------------------------------------------------------
 
