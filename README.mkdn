@@ -1,66 +1,86 @@
-# Cryptex1 Key & Nonce Extraction (A9+ Devices)
+# Cryptex1 Key, Seed & Entangled Nonce Extraction (A9+ Devices)
 
-This guide explains how to extract the Cryptex1-related key material and
-generate the entangled nonce required for Cryptex1 SHSH blobs.
+This guide explains how to extract Cryptex1-related key material, including the
+Cryptex seed and entangled nonce, required for generating Cryptex1 SHSH blobs.
 
-### For a8 devices please look at [A8.mkdn](https://github.com/techspice0/get-blobs-py/blob/main/A8.mkdn)
+This applies to A9+ devices only.
+For A8 devices, see:
+https://github.com/techspice0/get-blobs-py/blob/main/A8.mkdn
 
 ------------------------------------------------------------------------
 
 ## Requirements
 
--   Jailbroken iOS device (i use dopamine for ios 15-16)
--   **A9+ SoCs only**
-    -   ❌ Apple TV 4
-    -   ❌ HomePod
--   OpenSSH installed on the device
--   Python 3 on your computer
+- Jailbroken iOS device
+  - Tested on iOS 15–16 (Dopamine recommended)
+- A9+ SoCs only
+  - Apple TV 4 (not supported/untested)
+  - HomePod 1 (not supported/untested)
+- OpenSSH installed on the device
+- Python 3 on your computer
 
 ------------------------------------------------------------------------
 
 ## Device Setup (On the Jailbroken Device)
 
-1.  Add the following repository to your package manager:
+1. Add the following repository to your package manager:
 
-    repo.049981.xyz
+   repo.049981.xyz
 
-2.  Navigate to the **x8A4** section of the repo.
+2. Navigate to the x8A4 section of the repo.
 
-3.  Install **all tweaks** listed in the x8A4 section.
+3. Install all tweaks listed in the x8A4 section.
 
-4.  Install **OpenSSH** OpenSSH is not included in this repository.
+4. Install OpenSSH
+   OpenSSH is not included in this repository.
 
 ------------------------------------------------------------------------
 
-## Extracting the x8A4 Key (On Your Computer)
+## Extract Cryptex1 Seed & Entangled Nonce (Recommended Method)
 
 From your computer, run:
 
-`ssh mobile@<ip> "echo <password> | sudo -S x8A4 -k 0x8A4"`
+ssh mobile@<device-ip> "echo <password> | sudo -S x8A4 -xt"
 
-### Important
-
--   Locate the block labeled **KEY:**
--   Copy only the key value
--   Remove the `0x` prefix before continuing
+Remove the 0x from ONLY THE NONCE VALUE
 
 ------------------------------------------------------------------------
 
-## Export the Key
+## Values to Save
 
-`export X8KEY=<key_without_0x>`
+Cryptex1 Seed:
+0xabcdefgh
 
-------------------------------------------------------------------------
+Cryptex1 Nonce:
+abcdefgh
 
-## Generate the Cryptex1 Entangled Nonce
-
-`pip3 install pycryptodome && git clone
-https://github.com/Cryptiiiic/aes_nonce.git && cd aes_nonce && python3
-aes_cryptex_nonce.py $X8KEY 11111111111111111111111111111111`
+These values are entered directly into collect_blob_config.py.
 
 ------------------------------------------------------------------------
 
-## Result
+## Generating SHSH Blobs
 
-The output of the script is the **entangled nonce**. This nonce is
-required for generating **Cryptex1 SHSH blobs**. you can now execute collect_config.py then save_blobs.py. i recommend using the blobsaver app to get apnonce and generator.
+1. Run:
+
+python3 collect_blob_config.py
+
+- Enter device information and iOS version or build ID
+- Paste the Cryptex1 seed and entangled nonce when prompted
+- Cryptex fields are automatically skipped for iOS 15 and below
+
+2. Then run:
+
+python3 save_blobs.py
+
+3. Blobs will be saved under:
+
+blobs/<nickname>/shsh/
+
+------------------------------------------------------------------------
+
+## Notes
+
+- x8A4 -xt replaces aes_cryptex_nonce.py entirely
+- No manual AES-based nonce generation is required
+- The scripts already support this workflow
+- BlobSaver is recommended for obtaining APNonce and generator
